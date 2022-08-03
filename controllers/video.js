@@ -1,4 +1,4 @@
-const { addVideoService, updateVideoService, deleteVideoService, getVideoService } = require('../services/videoServices');
+const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService } = require('../services/videoServices');
 const createError = require('../errors/error');
 
 
@@ -11,27 +11,27 @@ const addVideo = async (req, res, next) => {
     }
 }
 
-const updateVideo = (req, res, next) => {
+const updateVideo = async (req, res, next) => {
     try {
-        const result = updateVideoService(req.user.id, req.params.id, req.body);
+        const result = await updateVideoService(req.user.id, req.params.id, req.body);
         return res.status(200).json({statusCode: 200, message: 'Video updated successfully'});
     } catch (error) {
         next(error)
     }
 }
 
-const deleteVideo = (req, res, next) => {
+const deleteVideo = async (req, res, next) => {
     try {
-        const result = deleteVideoService(req.user.id, req.params.id);
+        const result = await deleteVideoService(req.user.id, req.params.id);
         return res.status(200).json({statusCode: 200, message: 'Video deleted successfully'});
     } catch (error) {
         next(error)
     }
 }
 
-const getVideo = (req, res, next) => {
+const getVideo = async (req, res, next) => {
     try{
-        const result = getVideoService(req.params.id);
+        const result = await getVideoService(req.params.id);
         return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
     }
     catch(error){
@@ -39,9 +39,21 @@ const getVideo = (req, res, next) => {
     }
 }
 
+const addView = async (req, res, next) => {
+    try{
+        const result = await increaseViewService(req.params.id);
+        return res.status(200).json({statusCode: 200, message: 'Increases view successfully'});
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+
 module.exports = {
     addVideo,
     updateVideo,
     deleteVideo,
-    getVideo
+    getVideo,
+    addView,
 }
