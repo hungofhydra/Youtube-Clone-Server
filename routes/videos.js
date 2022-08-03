@@ -16,9 +16,9 @@ router.post('/',verifyToken, addVideo);
 router.put('/:id',verifyToken, updateVideo);
 router.get('/find/:id', getVideo);
 router.delete('/:id',verifyToken, deleteVideo );
-router.put('/view/:id', addView );
+router.put('/view/:id',  addView );
 router.get('/random',  random);
 router.get('/trend',  trend);
-router.get('/sub',  sub);
+router.get('/sub', verifyToken, sub);
 
 module.exports = router;    
