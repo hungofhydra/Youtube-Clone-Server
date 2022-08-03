@@ -38,9 +38,17 @@ const getVideoService = async (videoId) => {
     return video;
 }
 
+const increaseViewService = async (videoId) => {
+    const result = await Video.findByIdAndUpdate({_id : videoId}, { $inc: { views: 1 } }, { new: true });
+    if (!result) throw createError(500, 'Something went wrong');
+    return result;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
     deleteVideoService,
-    getVideoService
+    getVideoService,
+    increaseViewService,
+    
 };
