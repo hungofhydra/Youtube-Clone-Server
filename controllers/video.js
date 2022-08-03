@@ -1,4 +1,4 @@
-const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService } = require('../services/videoServices');
+const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService } = require('../services/videoServices');
 const createError = require('../errors/error');
 
 
@@ -49,6 +49,35 @@ const addView = async (req, res, next) => {
     }
 }
 
+const random = (req, res, next) => {
+    try{
+        const result = randomVideoService();
+        return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+// const trend = (req, res, next) => {
+//     try{
+//         const result = getVideoService(req.params.id);
+//         return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
+//     }
+//     catch(error){
+//         next(error)
+//     }
+// }
+
+// const sub = (req, res, next) => {
+//     try{
+//         const result = getVideoService(req.params.id);
+//         return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
+//     }
+//     catch(error){
+//         next(error)
+//     }
+// }
 
 module.exports = {
     addVideo,
@@ -56,4 +85,7 @@ module.exports = {
     deleteVideo,
     getVideo,
     addView,
+    random,
+    //trend,
+    //sub
 }

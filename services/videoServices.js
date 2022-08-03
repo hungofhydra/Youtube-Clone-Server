@@ -44,11 +44,17 @@ const increaseViewService = async (videoId) => {
     return result;
 }
 
+const randomVideoService = async () => {
+    const result = await Video.aggregate([{ $sample: { size: 40 } }]);
+    if (!result) throw createError(500, 'Something went wrong');
+    return result;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
     deleteVideoService,
     getVideoService,
     increaseViewService,
-    
+    randomVideoService
 };
