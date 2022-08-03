@@ -1,6 +1,7 @@
-
-const { updateUserService } = require('../services/userServices');
+//id 62e9fa400dbe4604b0841e35
+const { updateUserService, deleteUserService, getUserService, subscribeService,unsubscribeService } = require('../services/userServices');
 const createError = require('../errors/error');
+
 
 const updateUser = async (req, res, next) => {
     if (req.params.id === req.user.id) {
@@ -15,16 +16,44 @@ const updateUser = async (req, res, next) => {
     
 }
 
-const deleteUser = (req, res, next) => {
+const deleteUser = async (req, res, next) => {
+    if (req.params.id === req.user.id) {
+        try {
+            const result = await deleteUserService(req.params.id);
+            return res.status(200).json({statusCode: 200, message: 'User deleted successfully'});
+        } catch (error) {
+            next(error);
+        }
+    }
+    return next(createError(400, "You can only delete your own account"));
 }
 
-const getUser = (req, res, next) => {
+const getUser = async (req, res, next) => {
+    try {
+        const result = await getUserService(req.params.id);
+        return res.status(200).json({statusCode: 200, message: 'User founded successfully', user: result});
+    } catch (error) {
+        next(error);
+    }
+   
 }
 
-const subscribe = (req, res, next) => {
+const subscribe = async (req, res, next) => {
+    try {
+        const result = await subscribeService(req.user.id, req.params.id);
+        return res.status(200).json({statusCode: 200, message: 'User subscribed successfully'});
+    } catch (error) {
+        next(error);
+    }
 }
 
-const unsubscribe = (req, res, next) => {
+const unsubscribe = async (req, res, next) => {
+    try {
+        const result = await unsubscribeService(req.user.id, req.params.id);
+        return res.status(200).json({statusCode: 200, message: 'User ubsubscribed successfully'});
+    } catch (error) {
+        next(error);
+    }
 }
 
 const like = (req, res, next) => {

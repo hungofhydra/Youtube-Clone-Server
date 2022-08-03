@@ -1,5 +1,7 @@
 const express = require('express');
 
+const verifyToken = require('../middlewares/verifyToken');
+
 const { updateUser,
         deleteUser,
         getUser,
@@ -9,17 +11,17 @@ const { updateUser,
         dislike } = require('../controllers/user');
 const router = express.Router();
 
-router.put('/:id', updateUser);
+router.put('/:id', verifyToken, updateUser);
 
-router.delete('/:id', deleteUser);
+router.delete('/:id',verifyToken,  deleteUser);
 
 router.get('/find/:id', getUser);
 
-router.put('/sub/:id', subscribe);
+router.put('/sub/:id', verifyToken, subscribe);
 
-router.put('/unsub/:id', unsubscribe);
+router.put('/unsub/:id', verifyToken, unsubscribe);
 
-router.put('/like/:videoId', like);
+router.put('/like/:videoId', verifyToken, like);
 
-router.put('/dislike/:videoId', dislike);
+router.put('/dislike/:videoId', verifyToken , dislike);
 module.exports = router;    

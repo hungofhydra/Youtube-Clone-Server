@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/users', verifyToken,  userRoute);
+app.use('/api/v1/users',  userRoute);
 app.use('/api/v1/video', videosRoute);
 app.use('/api/v1/comment', commentRoute);
 app.use(errorHandler);
