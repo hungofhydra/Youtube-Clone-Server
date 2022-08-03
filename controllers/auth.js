@@ -1,16 +1,12 @@
-const moongoose = require('mongoose');
 
 const { signUpService ,signInService} = require('../services/authServices');
-const createError = require('../errors/error');
-const { json } = require('express');
-const { sign } = require('jsonwebtoken');
 
 
 const signUp = async (req, res, next) => {    
 
     try {
         const result = await signUpService(req.body);
-        res.status(200).json({statusCode: 200, message: 'User created successfully', data: result});
+        return res.status(200).json({statusCode: 200, message: 'User created successfully', data: result});
     }
     catch (err) {
         next(err);
@@ -19,9 +15,9 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
 
-     try {
+    try {
         const token = await signInService(req.body);
-        res
+        return res
         .cookie("access_token", token, {
         httpOnly: true,
         })
@@ -31,6 +27,7 @@ const signIn = async (req, res, next) => {
     catch (err) {
         next(err);
     }
+
 };
 
 module.exports = {
