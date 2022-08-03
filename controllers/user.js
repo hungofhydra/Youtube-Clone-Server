@@ -22,5 +22,11 @@ const dislike = (req, res, next) => {
 
 
 module.exports = {
-    
+    updateUser,
+    deleteUser,
+    getUser,
+    subscribe,
+    unsubscribe,
+    like,
+    dislike
 }

@@ -1,40 +1,34 @@
 const moongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
-const User = require('../models/User');
+const { signUpService ,signInService} = require('../services/authServices');
 const createError = require('../errors/error');
+const { json } = require('express');
+const { sign } = require('jsonwebtoken');
 
-const signUp = async (req, res, next) => {
+
+const signUp = async (req, res, next) => {    
+
     try {
-        const salt = bcrypt.genSaltSync(10);
-        const hashedPassword = bcrypt.hashSync(req.body.password, salt);
-
-        const newUser = await User.create({...req.body, password : hashedPassword});
-        if (newUser) res.status(200).send("User created successfully");
-    } catch (err) {
+        const result = await signUpService(req.body);
+        res.status(200).json({statusCode: 200, message: 'User created successfully', data: result});
+    }
+    catch (err) {
         next(err);
     }
 };
 
 const signIn = async (req, res, next) => {
-    try {
-        const user = await User.findOne({name : req.body.name});
-        if (!user) next(createError(404, "User not found"));
 
-        const passwordMatched = await bcrypt.compareSync(req.body.password, user.password);
-        if (!passwordMatched) next(createError(401, "Password is incorrect"));
-    
-        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET);
-        
+     try {
+        const token = await signInService(req.body);
         res
         .cookie("access_token", token, {
-          httpOnly: true,
+        httpOnly: true,
         })
         .status(200)
-        .json(others);
-        
-    } catch (err) {
+        .json({statusCode: 200, message: 'User loginned successfully', token});
+    }
+    catch (err) {
         next(err);
     }
 };
