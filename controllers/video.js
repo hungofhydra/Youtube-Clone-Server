@@ -1,4 +1,4 @@
-const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService, trendVideoService } = require('../services/videoServices');
+const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService, trendVideoService, subService } = require('../services/videoServices');
 const createError = require('../errors/error');
 
 
@@ -70,15 +70,15 @@ const trend = (req, res, next) => {
     }
 }
 
-// const sub = (req, res, next) => {
-//     try{
-//         const result = getVideoService(req.params.id);
-//         return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
-//     }
-//     catch(error){
-//         next(error)
-//     }
-// }
+const sub = (req, res, next) => {
+    try{
+        const result = subService(req.user.id);
+        return res.status(200).json({statusCode: 200, message: 'Get video from subscribed channel success', data: result});
+    }
+    catch(error){
+        next(error)
+    }
+}
 
 module.exports = {
     addVideo,
@@ -87,6 +87,6 @@ module.exports = {
     getVideo,
     addView,
     random,
-    //trend,
-    //sub
+    trend,
+    sub
 }

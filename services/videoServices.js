@@ -1,5 +1,6 @@
 const createError = require('../errors/error');
 const Video = require('../models/Video');
+const { getUserService } = require('./userServices');
 
 const addVideoService = async (userId ,data) => {
     const addedVideo = await Video.create({userId, ...data});
@@ -56,6 +57,16 @@ const trendVideoService = async () => {
     return result;
 }
 
+const subService = async (userId) => {
+    const user = getUserService(userId);
+    if (!user) throw createError(404, `There is no user with id  ${userId}}`); 
+    const subscribedChannels = user.subscribedChannels  
+
+    const list = subscribedChannels.map( async (channelId) => {return await Video.find({userId : channelId})})
+    if (!list) throw createError(500, 'Something went wrong');
+    return list;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
@@ -63,5 +74,6 @@ module.exports = {
     getVideoService,
     increaseViewService,
     randomVideoService,
-    trendVideoService
+    trendVideoService,
+    subService
 };
