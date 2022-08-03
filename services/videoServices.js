@@ -50,11 +50,18 @@ const randomVideoService = async () => {
     return result;
 }
 
+const trendVideoService = async () => {
+    const result = await Video.find().sort({views : -1})
+    if (!result) throw createError(500, 'Something went wrong');
+    return result;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
     deleteVideoService,
     getVideoService,
     increaseViewService,
-    randomVideoService
+    randomVideoService,
+    trendVideoService
 };

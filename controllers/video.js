@@ -1,4 +1,4 @@
-const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService } = require('../services/videoServices');
+const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService, trendVideoService } = require('../services/videoServices');
 const createError = require('../errors/error');
 
 
@@ -52,22 +52,23 @@ const addView = async (req, res, next) => {
 const random = (req, res, next) => {
     try{
         const result = randomVideoService();
-        return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
+        return res.status(200).json({statusCode: 200, message: 'Random video found successfully', data: result});
     }
     catch(error){
         next(error)
     }
 }
 
-// const trend = (req, res, next) => {
-//     try{
-//         const result = getVideoService(req.params.id);
-//         return res.status(200).json({statusCode: 200, message: 'Video found successfully', data: result});
-//     }
-//     catch(error){
-//         next(error)
-//     }
-// }
+
+const trend = (req, res, next) => {
+    try{
+        const result = trendVideoService();
+        return res.status(200).json({statusCode: 200, message: 'Generated trend video successfully', data: result});
+    }
+    catch(error){
+        next(error)
+    }
+}
 
 // const sub = (req, res, next) => {
 //     try{
