@@ -18,8 +18,7 @@ router.get('/find/:id', getVideo);
 router.delete('/:id',verifyToken, deleteVideo );
 router.put('/view/:id', addView );
 router.get('/random',  random);
-//router.get('/trend',  trend);
-
-//router.get('/sub',  sub);
+router.get('/trend',  trend);
+router.get('/sub',  sub);
 
 module.exports = router;    
