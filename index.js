@@ -1,7 +1,5 @@
 require("dotenv").config();
-//require("express-async-errors");
 const express = require('express');
-const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
 
@@ -11,6 +9,7 @@ const videosRoute = require('./routes/videos');
 const commentRoute = require('./routes/comments');
 const authRoute = require('./routes/auths');
 const errorHandler = require('./errors/errorHandler');
+const verifyToken = require('./middlewares/verifyToken');
 const PORT = process.env.PORT || 5000;
 
 const app = express()
@@ -19,7 +18,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/users', userRoute);
+app.use('/api/v1/users',  userRoute);
 app.use('/api/v1/video', videosRoute);
 app.use('/api/v1/comment', commentRoute);
 app.use(errorHandler);
