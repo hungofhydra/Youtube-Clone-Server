@@ -1,7 +1,6 @@
 const express = require('express');
 
 const verifyToken = require('../middlewares/verifyToken');
-
 const { updateUser,
         deleteUser,
         getUser,
@@ -10,6 +9,7 @@ const { updateUser,
         like,
         dislike } = require('../controllers/user');
 const router = express.Router();
+
 
 router.put('/:id', verifyToken, updateUser);
 
