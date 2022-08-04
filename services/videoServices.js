@@ -77,6 +77,24 @@ const searchVideoService = async (query) => {
     return videos;
 }
 
+const likeVideoService = async (userId, videoId) => {
+    const result = await Video.findByIdAndUpdate(videoId,{
+        $addToSet:{likes:userId},
+        $pull:{dislikes:userId}
+      })
+    if (!result) throw createError(500, 'Something went wrong');
+    return result;
+}
+
+const dislikeVideoService = async (userId, videoId) => {
+    const result =  await Video.findByIdAndUpdate(videoId,{
+        $addToSet:{dislikes:userId},
+        $pull:{likes:userId}
+      })
+    if (!result) throw createError(500, 'Something went wrong');
+    return result;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
@@ -87,5 +105,7 @@ module.exports = {
     trendVideoService,
     subService,
     getVideoByTagService,
-    searchVideoService
+    searchVideoService,
+    likeVideoService,
+    dislikeVideoService
 };

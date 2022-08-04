@@ -1,4 +1,5 @@
 //id 62e9fa400dbe4604b0841e35
+const { likeVideoService, dislikeVideoService } = require('../services/videoServices');
 const { updateUserService, deleteUserService, getUserService, subscribeService,unsubscribeService } = require('../services/userServices');
 const createError = require('../errors/error');
 
@@ -57,31 +58,21 @@ const unsubscribe = async (req, res, next) => {
 }
 
 const like = async (req, res, next) => {
-    // const id = req.user.id;
-    // const videoId = req.params.videoId;
-    // try {
-    //   await Video.findByIdAndUpdate(videoId,{
-    //     $addToSet:{likes:id},
-    //     $pull:{dislikes:id}
-    //   })
-    //   res.status(200).json("The video has been liked.")
-    // } catch (err) {
-    //   next(err);
-    // }
+    try {
+      await likeVideoService(req.user.id, req.params.videoId);
+      res.status(200).json("The video has been liked.")
+    } catch (err) {
+      next(err);
+    }
 }
 
 const dislike = async (req, res, next) => {
-//     const id = req.user.id;
-//     const videoId = req.params.videoId;
-//     try {
-//       await Video.findByIdAndUpdate(videoId,{
-//         $addToSet:{dislikes:id},
-//         $pull:{likes:id}
-//       })
-//       res.status(200).json("The video has been disliked.")
-//   } catch (err) {
-//     next(err);
-//   }
+    try {
+        await dislikeVideoService(req.user.id, req.params.videoId);
+        res.status(200).json("The video has been disliked.")
+      } catch (err) {
+        next(err);
+      }
 }
 
 
