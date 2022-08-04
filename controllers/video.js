@@ -5,7 +5,7 @@ const createError = require('../errors/error');
 const addVideo = async (req, res, next) => {
     try {
         const result = await addVideoService(req.user.id, req.body);
-        return res.status(200).json({statusCode: 200, message: 'Video added successfully'});
+        return res.status(200).json({statusCode: 200, message: 'Video added successfully', data : result});
     } catch (error) {
         next(error)
     }
@@ -49,9 +49,9 @@ const addView = async (req, res, next) => {
     }
 }
 
-const random = (req, res, next) => {
+const random = async (req, res, next) => {
     try{
-        const result = randomVideoService();
+        const result = await randomVideoService();
         return res.status(200).json({statusCode: 200, message: 'Random video found successfully', data: result});
     }
     catch(error){
@@ -60,9 +60,9 @@ const random = (req, res, next) => {
 }
 
 
-const trend = (req, res, next) => {
+const trend = async (req, res, next) => {
     try{
-        const result = trendVideoService();
+        const result = await trendVideoService();
         return res.status(200).json({statusCode: 200, message: 'Generated trend video successfully', data: result});
     }
     catch(error){
@@ -70,9 +70,9 @@ const trend = (req, res, next) => {
     }
 }
 
-const sub = (req, res, next) => {
+const sub = async (req, res, next) => {
     try{
-        const result = subService(req.user.id);
+        const result = await subService(req.user.id);
         return res.status(200).json({statusCode: 200, message: 'Get video from subscribed channel success', data: result});
     }
     catch(error){

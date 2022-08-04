@@ -58,13 +58,13 @@ const trendVideoService = async () => {
 }
 
 const subService = async (userId) => {
-    const user = getUserService(userId);
+    const user = await getUserService(userId);
     if (!user) throw createError(404, `There is no user with id  ${userId}}`); 
-    const subscribedChannels = user.subscribedChannels  
+    const subscribedUsers = user.subscribedUsers;
     
-    const list = subscribedChannels?.map( async (channelId) => {return await Video.find({userId : channelId})}) || [];
+    const list = await Promise.all(subscribedUsers.map( (channelId) => {return Video.find({userId : channelId})}));
     if (!list) throw createError(500, 'Something went wrong');
-    return list;
+    return list.flat().sort((a, b) => b.createdAt - a.createdAt);
 }
 
 module.exports = { 

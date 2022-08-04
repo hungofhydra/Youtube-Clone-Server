@@ -22,18 +22,20 @@ const getUserService = async (id) => {
 const subscribeService = async (userId, subscribedUserId) => {
 
     const user = await User.findByIdAndUpdate({_id: userId}, 
-                                              { $inc: { subscribers: 1 }, $push: { subscribedUsers: subscribedUserId } },
+                                              { $push: { subscribedUsers: subscribedUserId } },
                                               { new: true });
-    if (!user) throw createError(500, 'Something went wrong');
+    const userGotSubscribedTo = await User.findByIdAndUpdate({_id: subscribedUserId}, { $inc: { subscribers: 1 } }, { new: true });
+    if (!user || !userGotSubscribedTo) throw createError(500, 'Something went wrong');
     return user;
 }
 
 const unsubscribeService = async (userId, subscribedUserId) => {
 
     const user = await User.findByIdAndUpdate({_id: userId}, 
-                                              { $inc: { subscribers: -1 }, $pull: { subscribedUsers: subscribedUserId } },
+                                              { $pull: { subscribedUsers: subscribedUserId } },
                                               { new: true });
-    if (!user) throw createError(500, 'Something went wrong');
+    const userGotUnsubscribedTo = await User.findByIdAndUpdate({_id: subscribedUserId}, { $inc: { subscribers: -1 } }, { new: true });                                          
+    if (!user || !userGotUnsubscribedTo ) throw createError(500, 'Something went wrong');
     return user;
 }
 
