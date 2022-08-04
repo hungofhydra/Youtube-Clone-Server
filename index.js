@@ -8,7 +8,7 @@ const userRoute = require('./routes/users');
 const videosRoute = require('./routes/videos');
 const commentRoute = require('./routes/comments');
 const authRoute = require('./routes/auths');
-const errorHandler = require('./errors/errorHandler');
+const errorHandler = require('./middlewares/errorHandler');
 const verifyToken = require('./middlewares/verifyToken');
 const PORT = process.env.PORT || 5000;
 
