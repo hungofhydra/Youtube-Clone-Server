@@ -39,6 +39,7 @@ const unsubscribeService = async (userId, subscribedUserId) => {
     return user;
 }
 
+
 module.exports = { 
     updateUserService,
     deleteUserService,
