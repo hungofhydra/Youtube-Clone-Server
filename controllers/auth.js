@@ -22,7 +22,7 @@ const signIn = async (req, res, next) => {
         httpOnly: true,
         })
         .status(200)
-        .json({statusCode: 200, message: 'User loginned successfully', token});
+        .json({statusCode: 200, message: 'User loginned successfully'});
     }
     catch (err) {
         next(err);
