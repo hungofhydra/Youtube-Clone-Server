@@ -1,4 +1,14 @@
-const { addVideoService, updateVideoService, deleteVideoService, getVideoService, increaseViewService, randomVideoService, trendVideoService, subService } = require('../services/videoServices');
+const { 
+    addVideoService, 
+    updateVideoService, 
+    deleteVideoService, 
+    getVideoService, 
+    increaseViewService, 
+    randomVideoService, 
+    trendVideoService, 
+    subService,
+    getVideoByTagService,
+    searchVideoService } = require('../services/videoServices');
 const createError = require('../errors/error');
 
 
@@ -80,6 +90,28 @@ const sub = async (req, res, next) => {
     }
 }
 
+const getByTag = async (req, res, next) => {
+    const tags = req.query.tags.split(',');
+    try{
+        const result = await getVideoByTagService(tags);
+        return res.status(200).json({statusCode: 200, message: 'Get video with tag success', data: result});
+    }
+    catch(error){
+        next(error)
+    }
+}
+
+const search = async (req, res, next) => {
+    const query = req.query.q;
+    try{
+        const result = await searchVideoService(query);
+        return res.status(200).json({statusCode: 200, message: 'Get video from subscribed channel success', data: result});
+    }
+    catch(error){
+        next(error)
+    }
+}
+
 module.exports = {
     addVideo,
     updateVideo,
@@ -88,5 +120,7 @@ module.exports = {
     addView,
     random,
     trend,
-    sub
+    sub,
+    getByTag,
+    search
 }
