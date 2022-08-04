@@ -67,6 +67,16 @@ const subService = async (userId) => {
     return list.flat().sort((a, b) => b.createdAt - a.createdAt);
 }
 
+const getVideoByTagService = async (tags) => {
+    const videos = await Video.find({tags : {$in : tags}}).limit(20);
+    return videos;
+}
+
+const searchVideoService = async (query) => {
+    const videos = await Video.find({title : {$regex : query, $options : 'i'}}).limit(20);
+    return videos;
+}
+
 module.exports = { 
     addVideoService,
     updateVideoService,
@@ -75,5 +85,7 @@ module.exports = {
     increaseViewService,
     randomVideoService,
     trendVideoService,
-    subService
+    subService,
+    getVideoByTagService,
+    searchVideoService
 };
