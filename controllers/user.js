@@ -32,7 +32,7 @@ const deleteUser = async (req, res, next) => {
 const getUser = async (req, res, next) => {
     try {
         const result = await getUserService(req.params.id);
-        return res.status(200).json({statusCode: 200, message: 'User founded successfully', user: result});
+        return res.status(200).json({statusCode: 200, message: 'User founded successfully', data: result});
     } catch (error) {
         next(error);
     }

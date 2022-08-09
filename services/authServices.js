@@ -26,12 +26,29 @@ const signInService = async (user) => {
 
     const token = jwt.sign({id : userResult._id}, process.env.JWT_SECRET);
     
-    return token; 
+    return {token, userResult}; 
     
 };
 
+const googleLoginService = async (data) => {
+    const user = await User.findOne({ email: data.email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      return { token, user};
+    } 
+    else {
+      const newUser = User.create({
+        ...data,
+        fromGoogle: true,
+      });
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      return { token, newUser};
+      
+    }
+}
 
 module.exports = {
     signUpService,
-    signInService
+    signInService,
+    googleLoginService
 }

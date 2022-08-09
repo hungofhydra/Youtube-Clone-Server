@@ -1,7 +1,5 @@
 const { addCommentService, deleteCommentService, getCommentsService } = require('../services/commentService');
-const createError = require('../errors/error');
-const Comment = require('../models/Comment');
-const Video = require('../models/Video');
+
 
 const addComment = async (req, res, next) => {
   try {
