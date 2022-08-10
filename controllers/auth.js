@@ -36,42 +36,31 @@ const signIn = async (req, res, next) => {
 
 const googleAuth = async (req, res, next) => {
     try {
-        const {token, user} = await googleLoginService(req.body);
-        res.cookie("access_token", token, {
+        const token = await googleLoginService(req.body);
+        return res.cookie("access_token", token, {
             httpOnly: true,
         })
         .status(200)
-        .json(user._doc);
-    //   const user = await User.findOne({ email: req.body.email });
-    //   if (user) {
-    //     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-    //     res
-    //       .cookie("access_token", token, {
-    //         httpOnly: true,
-    //       })
-    //       .status(200)
-    //       .json(user._doc);
-    //   } else {
-    //     const newUser = User.create({
-    //       ...req.body,
-    //       fromGoogle: true,
-    //     });
-    //     console.log(newUser);
-    //     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-    //     res
-    //       .cookie("access_token", token, {
-    //         httpOnly: true,
-    //       })
-    //       .status(200)
-    //       .json(newUser._doc);
-    //  }
+        .json({statusCode: 200, message: 'User logined successfully'});
+   
     } catch (err) {
       next(err);
     }
   };
 
+  const logout = async (req, res) => {
+  
+    res.cookie('access_token', 'none', {
+        expires: new Date(Date.now() + 5 * 1000),
+        httpOnly: true,
+    })
+    .status(200)
+    .json({ success: true, message: 'User logged out successfully' })
+}
+
 module.exports = {
     signUp,
     signIn,
-    googleAuth
+    googleAuth,
+    logout
 }
