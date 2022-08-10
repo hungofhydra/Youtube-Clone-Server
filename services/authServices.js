@@ -34,15 +34,15 @@ const googleLoginService = async (data) => {
     const user = await User.findOne({ email: data.email });
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      return token;
+      return {token, user};
     } 
     else {
-      const newUser = await User.create({
+      const user = await User.create({
         ...data,
         fromGoogle: true,
       });
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-      return token;
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      return {token, user};
     }
 }
 
